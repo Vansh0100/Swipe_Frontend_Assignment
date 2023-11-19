@@ -39,5 +39,5 @@ The project follows a structured flow to manage and edit invoices. Here's an ove
 - Random invoices are generated and displayed initially on the landing page to provide users with a realistic view.
 
 # Deployment
-- <swipe-frontend-assignment.vercel.app>
+- Link: <https://swipe-frontend-assignment.vercel.app/>
 
