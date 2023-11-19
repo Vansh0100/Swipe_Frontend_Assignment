@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-toastify/dist/ReactToastify.css';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
@@ -14,6 +15,8 @@ import { addInvoice, updateInvoice } from "../redux/invoicesSlice";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import generateRandomId from "../utils/generateRandomId";
 import { useInvoiceListData } from "../redux/hooks";
+import {  toast } from 'react-toastify';
+import handleTtlCalculate from "../utils/handleTtlCalculate";
 
 const InvoiceForm = () => {
   const dispatch = useDispatch();
@@ -65,7 +68,7 @@ const InvoiceForm = () => {
           ],
         }
   );
-
+  console.log(formData);
   useEffect(() => {
     handleCalculateTotal();
   }, []);
@@ -96,32 +99,7 @@ const InvoiceForm = () => {
 
   const handleCalculateTotal = () => {
     setFormData((prevFormData) => {
-      let subTotal = 0;
-
-      prevFormData.items.forEach((item) => {
-        subTotal +=
-          parseFloat(item.itemPrice).toFixed(2) * parseInt(item.itemQuantity);
-      });
-
-      const taxAmount = parseFloat(
-        subTotal * (prevFormData.taxRate / 100)
-      ).toFixed(2);
-      const discountAmount = parseFloat(
-        subTotal * (prevFormData.discountRate / 100)
-      ).toFixed(2);
-      const total = (
-        subTotal -
-        parseFloat(discountAmount) +
-        parseFloat(taxAmount)
-      ).toFixed(2);
-
-      return {
-        ...prevFormData,
-        subTotal: parseFloat(subTotal).toFixed(2),
-        taxAmount,
-        discountAmount,
-        total,
-      };
+      return handleTtlCalculate(prevFormData);
     });
   };
 
@@ -159,14 +137,18 @@ const InvoiceForm = () => {
   const handleAddInvoice = () => {
     if (isEdit) {
       dispatch(updateInvoice({ id: params.id, updatedInvoice: formData }));
-      alert("Invoice updated successfuly 🥳");
+      toast.success("Invoice updated successfuly 🥳");
+      
     } else if (isCopy) {
       dispatch(addInvoice({ id: generateRandomId(), ...formData }));
-      alert("Invoice added successfuly 🥳");
+      toast.success("Invoice added successfuly 🥳");
+     
     } else {
       dispatch(addInvoice(formData));
-      alert("Invoice added successfuly 🥳");
+      toast.success("Invoice added successfuly 🥳");
+     
     }
+
     navigate("/");
   };
 
@@ -184,7 +166,7 @@ const InvoiceForm = () => {
   };
 
   return (
-    <Form onSubmit={openModal}>
+    <Form onSubmit={()=>{handleAddInvoice()}}>
       <div className="d-flex align-items-center">
         <BiArrowBack size={18} />
         <div className="fw-bold mt-1 mx-2 cursor-pointer">
@@ -202,14 +184,14 @@ const InvoiceForm = () => {
                 <div className="d-flex flex-column">
                   <div className="mb-2">
                     <span className="fw-bold">Current&nbsp;Date:&nbsp;</span>
-                    <span className="current-date">{formData.currentDate}</span>
+                    <span className="current-date">{formData?.currentDate}</span>
                   </div>
                 </div>
                 <div className="d-flex flex-row align-items-center">
                   <span className="fw-bold d-block me-2">Due&nbsp;Date:</span>
                   <Form.Control
                     type="date"
-                    value={formData.dateOfIssue}
+                    value={formData?.dateOfIssue}
                     name="dateOfIssue"
                     onChange={(e) => editField(e.target.name, e.target.value)}
                     style={{ maxWidth: "150px" }}
@@ -365,12 +347,13 @@ const InvoiceForm = () => {
           <div className="sticky-top pt-md-3 pt-xl-4">
             <Button
               variant="dark"
-              onClick={handleAddInvoice}
+              type="submit"
               className="d-block w-100 mb-2"
             >
               {isEdit ? "Update Invoice" : "Add Invoice"}
             </Button>
-            <Button variant="primary" type="submit" className="d-block w-100">
+           
+            <Button variant="primary" onClick={openModal}  className="d-block w-100">
               Review Invoice
             </Button>
             <InvoiceModal
