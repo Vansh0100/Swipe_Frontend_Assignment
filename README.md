@@ -1,15 +1,40 @@
 # Swipe_Frontend_Assignment
 
-# Setting up the project
-- To install all the dependencies use ```npm install```
-- To start the project use ```npm start```
+# Project Setup
+To set up the project, follow these steps:
+- Clone the repository.
+- Navigate to the project directory in your terminal.
+- Run the command npm install to install all the required dependencies.
+- Start the project using ```npm start```.
 
 # Code Flow
-- On the landing page I have made a button named as Edit Invoices on clicking which a modal will appear that will allow the users to select the invoices that needed to be edited in bulk.
-- On the same modal, there is a button Delete Selected Items provided for deleting the selected invoices from the available invoice list.
-- Then on selecting the invoices that needed to be edited in bulk, user will click on the button Edit Selected Items which will navigate the user to a different route ```http://localhost:3000/bulkEdit``` on which user can edit the invoice in bulk.
-- And in each invoice there is a button associated with each invoice which on clicking opens a modal and displays the items associated with that invoice.
-- And in each modal there is a option to edit the items in bulk as well as user can delete and add new item accordingly.
-- And on clicking Update Item List button the modal will be closed.
-- And when user clicks on Save Edit Changes button, user will be redirected to the main page with the updated invoice list.
-- I have created a function to create random invoices for displaying it initially on the landing page.
+The project follows a structured flow to manage and edit invoices. Here's an overview:
+
+# Landing Page
+- Edit Invoices Button
+   - Clicking the "Edit Invoices" button on the landing page triggers a modal.
+- Modal Actions:
+   - Select Invoices:
+     - Users can choose invoices they want to edit in bulk.
+   - Delete Selected Items:
+     - Deletes the selected invoices from the available invoice list.
+- Bulk Edit:
+   - Clicking the "Edit Selected Items" button navigates the user to a different route ```http://localhost:3000/bulkEdit```.
+   - Users can edit the selected invoices in bulk on this route.
+  
+# Invoice Details
+- Individual Invoices:
+   - Each invoice has an associated button.
+   - Clicking the button opens a modal displaying items associated with that specific invoice.
+- Modal Actions:
+   - Bulk Edit Items:
+     - Users can edit items in bulk within the modal.
+     - Options to delete and add new items are available.
+- Update Item List:
+   - Clicking the "Update Item List" button closes the modal.
+- Save Edit Changes:
+   - After making edits, clicking the "Save Edit Changes" button redirects the user to the main page with the updated invoice list.
+
+# Initial Data Display
+- Random invoices are generated and displayed initially on the landing page to provide users with a realistic view.
+
